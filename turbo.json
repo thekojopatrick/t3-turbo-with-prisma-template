@@ -6,8 +6,16 @@
     "topo": {
       "dependsOn": ["^topo"]
     },
+    "db:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "db:push": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
@@ -30,7 +38,7 @@
       "outputs": ["node_modules/.cache/.eslintcache"]
     },
     "typecheck": {
-      "dependsOn": ["^topo", "^build"],
+      "dependsOn": ["^topo", "^build", "^db:generate"],
       "outputs": ["node_modules/.cache/tsbuildinfo.json"]
     },
     "clean": {
@@ -42,9 +50,17 @@
   },
   "globalEnv": [
     "DATABASE_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
     "AUTH_DISCORD_ID",
     "AUTH_DISCORD_SECRET",
     "AUTH_REDIRECT_PROXY_URL",
-    "AUTH_SECRET"
+    "AUTH_SECRET",
+    "AUTH_URL",
+    "EXPO_ROUTER_APP_ROOT",
+    "NODE_ENV",
+    "SKIP_ENV_VALIDATION",
+    "VERCEL",
+    "VERCEL_URL"
   ]
 }
